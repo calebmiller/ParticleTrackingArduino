@@ -4,8 +4,10 @@ Box
 	plywood? base
 	plywood? roof
 Electronics
-	LED strings
-	Buttons  https://www.adafruit.com/product/1185
+	LED strings (x50)
+	Buttons (x3)  https://www.adafruit.com/product/1185
 	Clock    https://www.adafruit.com/product/865
 	Extra wiring?
 	power supply?
+
+Ping pong balls? (700)
