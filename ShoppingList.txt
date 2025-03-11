@@ -1,0 +1,11 @@
+Box
+	corner supports
+	plexiglass
+	plywood? base
+	plywood? roof
+Electronics
+	LED strings
+	Buttons
+	Clock
+	Extra wiring?
+	power supply?
