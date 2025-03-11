@@ -5,7 +5,7 @@ Box
 	plywood? roof
 Electronics
 	LED strings
-	Buttons
-	Clock
+	Buttons  https://www.adafruit.com/product/1185
+	Clock    https://www.adafruit.com/product/865
 	Extra wiring?
 	power supply?
