@@ -30,7 +30,7 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 
 // Button Pins
-const int BLUE_BUTTON_PIN 5
+const int BLUE_BUTTON_PIN = 5;
 int blue_state=0;
 
 // setup() function -- runs once at startup --------------------------------
@@ -40,8 +40,10 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(255); // Set BRIGHTNESS to about 1/5 (max = 255)
-  //strip.setPixelColor(10, strip.Color(255,255,255));
-  //strip.show();
+  //strip.setPixelColor(0, strip.Color(0,0,255));
+  strip.setPixelColor(0, strip.Color(200,150, 255));
+
+  strip.show();
 
 //CLOCK SETUP
 #ifndef __AVR_ATtiny85__
@@ -51,7 +53,7 @@ void setup() {
   matrix.begin(0x70);
 
 //BUTTON SETUP
-  pinMode(BLUE_BUTTON_PIN, INPUT)
+  pinMode(BLUE_BUTTON_PIN, INPUT_PULLUP);
 }
 
 
@@ -59,20 +61,24 @@ void setup() {
 
 void loop() {
   //Update clock:
-  clock_time+=1;
-  matrix.println(clock_time);
-  matrix.writeDisplay();
+//  clock_time+=1;
+//  matrix.println(clock_time);
+//  matrix.writeDisplay();
 
   //CHECK BUTTON PUSH
-  blue_state=digitalRead(BLUE_BUTTON_PIN)
-  if(blue_state == HIGH){
+  blue_state=digitalRead(BLUE_BUTTON_PIN);
+  if(blue_state == LOW){
     //run blue program
-    delay(10000) //subroutine should return after animation finishes
+    //subroutine should return after animation finishes
+    runNoise(strip);
+    //runBall(strip);
+    //runLine(strip);
+  }
+  else{
+    delay(10);
   }
 
-  //runBall(strip);
-  runNoise(strip);
-  //runLine(strip);
+
   //delay(1000);
 
 
