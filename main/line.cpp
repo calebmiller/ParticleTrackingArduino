@@ -4,9 +4,9 @@
 
 void runLine(Adafruit_NeoPixel &strip) {
 
-	int startPixel = random(5, 16);
+	int startPixel = random(10, 90);
     int direction = random(0, 2) == 0 ? -1 : 1; // Randomly choose direction: -1 (negative) or 1 (positive)
-    int numPixels = random(5, 11); // Random number of pixels between 5 and 10
+    int numPixels = random(10, 30); // Random number of pixels between 5 and 10
 
     for (int i = 0; i < numPixels; i++) {
         int pixel = startPixel + i * direction;

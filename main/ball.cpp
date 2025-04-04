@@ -4,7 +4,7 @@
 
 void runBall(Adafruit_NeoPixel &strip) {
 	int startPixel = random(0, strip.numPixels());
-    int steps = random(1, 5); // Random number of steps between 1 and 5
+    int steps = random(3, 8); // Random number of steps between 1 and 5
 
     for (int step = 0; step <= steps; step++) {
         for (int offset = -step; offset <= step; offset++) {

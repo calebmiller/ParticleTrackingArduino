@@ -5,9 +5,9 @@
 
 void runNoise(Adafruit_NeoPixel &strip) {
 	
-	int nLights = random(2,10);
+	int nLights = random(10,50);
 	for(int i=0; i<nLights; i++){
-		int pixel = random(0,30);
+		int pixel = random(0,100);
 		int r = random(50,255);
 		int g = random(50,255);
 		int b = random(50,255);
