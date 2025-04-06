@@ -33,15 +33,20 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 const int BLUE_BUTTON_PIN = 5;
 int blue_state=0;
 
+//Animation Properties
+#define STEPSIZE 0.1
+#define LINERADIUS 15
+
+
 // setup() function -- runs once at startup --------------------------------
 
 void setup() {
 //LED SETUP
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(255); // Set BRIGHTNESS to about 1/5 (max = 255)
+  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
   //strip.setPixelColor(0, strip.Color(0,0,255));
-  strip.setPixelColor(0, strip.Color(200,150, 255));
+  strip.setPixelColor(50, strip.Color(200,150, 255)); //GBR
 
   strip.show();
 
@@ -70,8 +75,8 @@ void loop() {
   if(blue_state == LOW){
     //run blue program
     //subroutine should return after animation finishes
-    runNoise(strip);
-    //runBall(strip);
+    //runNoise(strip);
+    runBall(strip);
     //runLine(strip);
   }
   else{
