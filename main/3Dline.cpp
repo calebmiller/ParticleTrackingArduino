@@ -16,6 +16,7 @@ void runTrack(Adafruit_NeoPixel &strip) {
     int startCoords[3];
     int endCoords[3];
 
+	//Set x,y,z points based on starting face
     switch (face) {
         case 0: // bottom
             startCoords[0] = startx;
@@ -73,13 +74,14 @@ void runTrack(Adafruit_NeoPixel &strip) {
 
 
 	int currentCoords[3] = {startCoords[0], startCoords[1], startCoords[2]};
-	while(distance>0){
+	while(distance>0){//Move the current point by the STEPSIZE
             currentCoords[0] += (endCoords[0] > currentCoords[0]) ? STEPSIZE : -STEPSIZE;
             currentCoords[1] += (endCoords[1] > currentCoords[1]) ? STEPSIZE : -STEPSIZE;
             currentCoords[2] += (endCoords[2] > currentCoords[2]) ? STEPSIZE : -STEPSIZE;
 			distance-=sqrt(3)*STEPSIZE;
 	
-			LEDController.TurnON(currentCoords,LINERADIUS);
+			LEDController.TurnON(currentCoords,LINERADIUS); //Turn on LEDs within certain distance of current location
+			delay(5); //TIMESTEP
 	}
 
 	delay(2000);
