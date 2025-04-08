@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_LEDBackpack.h>
+#include "config.h"
 
 #include "line.h"
 #include "ball.h"
@@ -11,11 +12,6 @@
 Adafruit_7segment matrix = Adafruit_7segment();
 int clock_time=0;
 
-// LED string pin
-#define LED_PIN    2
-
-// Pixels per string
-#define LED_COUNT 100
 
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
@@ -32,11 +28,6 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 // Button Pins
 const int BLUE_BUTTON_PIN = 5;
 int blue_state=0;
-
-//Animation Properties
-#define STEPSIZE 0.1
-#define LINERADIUS 15
-
 
 // setup() function -- runs once at startup --------------------------------
 
@@ -75,8 +66,8 @@ void loop() {
   if(blue_state == LOW){
     //run blue program
     //subroutine should return after animation finishes
-    //runNoise(strip);
-    runBall(strip);
+    runNoise(strip);
+    //runBall(strip);
     //runLine(strip);
   }
   else{

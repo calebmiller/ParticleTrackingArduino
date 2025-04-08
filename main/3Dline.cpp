@@ -1,6 +1,8 @@
 #include "3Dline.h"
+#include "config.h"
 #include <Arduino.h>  // Required for Arduino functions
 #include <Adafruit_NeoPixel.h>
+
 
 void runTrack(Adafruit_NeoPixel &strip) {
     int face = random(0, 6); // bottom, left, back, right, front, top
@@ -80,7 +82,7 @@ void runTrack(Adafruit_NeoPixel &strip) {
             currentCoords[2] += (endCoords[2] > currentCoords[2]) ? STEPSIZE : -STEPSIZE;
 			distance-=sqrt(3)*STEPSIZE;
 	
-			LEDController.TurnON(currentCoords,LINERADIUS); //Turn on LEDs within certain distance of current location
+//			LEDController.TurnON(currentCoords,LINERADIUS); //Turn on LEDs within certain distance of current location
 			delay(5); //TIMESTEP
 	}
 
