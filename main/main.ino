@@ -12,34 +12,25 @@
 Adafruit_7segment matrix = Adafruit_7segment();
 int clock_time=0;
 
-
-// Declare our NeoPixel strip object:
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
-// Argument 1 = Number of pixels in NeoPixel strip
-// Argument 2 = Arduino pin number (most are valid)
-// Argument 3 = Pixel type flags, add together as needed:
-//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-//   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
-//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-//   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-//   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-
-
-// Button Pins
-const int BLUE_BUTTON_PIN = 5;
+// Button states
 int blue_state=0;
+int yellow_state=0;
+int white_state=0;
 
 // setup() function -- runs once at startup --------------------------------
 
 void setup() {
 //LED SETUP
-  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
-  strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  for (int i = 0; i < 7; i++) {
+    strips[i].begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+    strips[i].show();            // Turn OFF all pixels ASAP
+    strips[i].setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  }
+  turnOffAllLights();
   //strip.setPixelColor(0, strip.Color(0,0,255));
-  strip.setPixelColor(50, strip.Color(200,150, 255)); //GBR
+  strips[0].setPixelColor(50, strips[0].Color(200,150, 255)); //GBR
 
-  strip.show();
+  strips[0].show();
 
 //CLOCK SETUP
 #ifndef __AVR_ATtiny85__
@@ -50,32 +41,31 @@ void setup() {
 
 //BUTTON SETUP
   pinMode(BLUE_BUTTON_PIN, INPUT_PULLUP);
+  pinMode(YELLOW_BUTTON_PIN, INPUT_PULLUP);
+  pinMode(WHITE_BUTTON_PIN, INPUT_PULLUP);
 }
 
 
 // loop() function -- runs repeatedly as long as board is on ---------------
 
 void loop() {
-  //Update clock:
-//  clock_time+=1;
-//  matrix.println(clock_time);
-//  matrix.writeDisplay();
 
-  //CHECK BUTTON PUSH
+  //read buttons
   blue_state=digitalRead(BLUE_BUTTON_PIN);
+  yellow_state=digitalRead(YELLOW_BUTTON_PIN);
+  white_state=digitalRead(WHITE_BUTTON_PIN);
   if(blue_state == LOW){
     //run blue program
     //subroutine should return after animation finishes
-    runNoise(strip);
-    //runBall(strip);
-    //runLine(strip);
+    runNoise(strips[0]);
+  }
+  else if(yellow_state == LOW){
+    delay(30);
+  }
+  else if(white_state == LOW){
+    delay(30);
   }
   else{
     delay(10);
   }
-
-
-  //delay(1000);
-
-
 }
