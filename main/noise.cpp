@@ -1,4 +1,5 @@
 #include "noise.h"
+#include "config.h"
 #include <Arduino.h>  // Required for Arduino functions
 #include <Adafruit_NeoPixel.h>
 
@@ -19,10 +20,6 @@ void runNoise(Adafruit_NeoPixel &strip) {
 		delay(200);
 
 		// Turn off all the lights
-    	for (int i = 0; i < strip.numPixels(); i++) {
-        	strip.setPixelColor(i, strip.Color(0, 0, 0));
-    	}
-
-    	strip.show();
+		turnOffAllLights();
 	}
 }
