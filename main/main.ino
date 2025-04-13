@@ -7,6 +7,7 @@
 #include "line.h"
 #include "ball.h"
 #include "noise.h"
+#include "led.h"
 
 // Setup for the clock
 Adafruit_7segment matrix = Adafruit_7segment();
