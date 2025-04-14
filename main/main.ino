@@ -18,6 +18,10 @@ int blue_state=0;
 int yellow_state=0;
 int white_state=0;
 
+//LEDController
+LEDSystem ledControl;
+
+
 // setup() function -- runs once at startup --------------------------------
 
 void setup() {
@@ -27,24 +31,29 @@ void setup() {
     strips[i].show();            // Turn OFF all pixels ASAP
     strips[i].setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
   }
-  turnOffAllLights();
+  //turnOffAllLights();
   //strip.setPixelColor(0, strip.Color(0,0,255));
   strips[0].setPixelColor(50, strips[0].Color(200,150, 255)); //GBR
 
   strips[0].show();
-
-//CLOCK SETUP
-#ifndef __AVR_ATtiny85__
   Serial.begin(9600);
-  Serial.println("7 Segment Backpack Test");
-#endif
-  matrix.begin(0x70);
+  Serial.println("startup");
+//CLOCK SETUP
+//#ifndef __AVR_ATtiny85__
+//  
+//  Serial.println("7 Segment Backpack Test");
+//#endif
+//  matrix.begin(0x70);
 
 //BUTTON SETUP
   pinMode(BLUE_BUTTON_PIN, INPUT_PULLUP);
   pinMode(YELLOW_BUTTON_PIN, INPUT_PULLUP);
   pinMode(WHITE_BUTTON_PIN, INPUT_PULLUP);
+
+  ledControl.initLEDs();
+  //ledControl.printMap();
 }
+
 
 
 // loop() function -- runs repeatedly as long as board is on ---------------

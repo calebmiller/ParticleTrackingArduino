@@ -2,17 +2,35 @@
 #define LED_H
 
 #include <Adafruit_NeoPixel.h>
-#include <vector>
-#include <unordered_map>
-#include <tuple>
+#include <ArduinoSTL.h>
+#include <map>
 
-typedef std::tuple<int, int, int> coordinate; // Represents a 3D coordinate (row, col, z)
-typedef std::pair<int, int> led_PIN_pixel;   // Represents a strip index and pixel index
+struct coordinate{
+  float x;
+  float y;
+  float z;
+  
+  bool operator<(const coordinate& other) const {
+    if (x != other.x) return x < other.x;
+    if (y != other.y) return y < other.y;
+    return z < other.z;
+  }
+};
+
+struct pixel_ID
+{
+  int strip;
+  int pixel;
+};
 
 class LEDSystem {
     public:
+        void initLEDs();
         // Add a strip to the system
         void addStrip(Adafruit_NeoPixel &strip);
+
+		    //load geometry map from csv
+		    void loadGeometry();
 
         // Set the geometry of the LED system
         // n_rows, n_cols, n_pixels_per_substrip are setting the grid structures
@@ -28,15 +46,18 @@ class LEDSystem {
         // Build the LED system
         void build();
 
+        void clear();
+
         // Get the number of strips
         int stripCount();
-        void drawPixel(coordinate coor, float radius, int r, int g, int b);
+        //void drawPixel(coordinate coor, float radius, int r, int g, int b);
         void show();
+        void printMap();
 
     private:
         // Attributes
-        std::vector<Adafruit_NeoPixel*> strips; // List of LED strips
-        std::unordered_map<coordinate, led_PIN_pixel> coordinate_pixel_map; // Map of coordinates to LED pixels
+        std::vector<Adafruit_NeoPixel*> strips;
+        std::map<coordinate, pixel_ID> coordinate_pixel_map; // Map of coordinates to LED pixels
         int n_rows = 0;                     // Number of rows in the LED grid
         int n_cols = 0;                     // Number of columns in the LED grid
         int n_pixels_per_substrip = 0;      // Number of pixels per sub-strip
@@ -51,6 +72,8 @@ class LEDSystem {
         // Helper function to build the coordinate-to-pixel map
         void buildCoordinatePixelMap();
         void buildColumnCoordinatePixelMap(int col);
+        void generate_grid(int rows, float distance);
+        //void populate_map(std::map<int, coordinate> points, std::vector<float> z_coords, std::map<float, int> pin_dict);
 };
 
 #endif // LED_H
