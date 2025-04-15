@@ -1,10 +1,9 @@
 #include "noise.h"
-#include "config.h"
 #include <Arduino.h>  // Required for Arduino functions
 #include <Adafruit_NeoPixel.h>
 
 
-void runNoise(Adafruit_NeoPixel &strip) {
+void runNoise(LEDSystem ledControl) {
 
 	for(int i=0; i<10; i++){	
 		int nLights = random(10,50);
@@ -13,13 +12,13 @@ void runNoise(Adafruit_NeoPixel &strip) {
 			int r = random(50,255);
 			int g = random(50,255);
 			int b = random(50,255);
-			strip.setPixelColor(pixel, strip.Color(r,g,b));
+      ledControl.setPixel(pixel, r,g,b);
 		}
 	
-		strip.show();
+		ledControl.show();
 		delay(200);
 
 		// Turn off all the lights
-		turnOffAllLights();
+		ledControl.clear();
 	}
 }

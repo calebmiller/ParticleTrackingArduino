@@ -1,5 +1,20 @@
 #include "led.h"
 
+// Define the pins for the NeoPixel strips
+const int LED_PINS[7] = {2, 3, 4, 5, 6, 7, 8};
+const int LED_COUNT = 100;
+
+
+// Define the array of Adafruit_NeoPixel objects
+Adafruit_NeoPixel strips[7] = {
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[0], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[1], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[2], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[3], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[4], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[5], NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(LED_COUNT, LED_PINS[6], NEO_GRB + NEO_KHZ800)
+};
 
 void LEDSystem::initLEDs(){
 
@@ -7,16 +22,9 @@ void LEDSystem::initLEDs(){
   float distance = 16.0;
   generate_grid(rows, distance);
   Serial.println("Geometry Generated");
-
   
   //populate_map(points, pin_dict);
 
-}
-
-
-// Add a strip to the system
-void LEDSystem::addStrip(Adafruit_NeoPixel &strip) {
-    strips.push_back(&strip);
 }
 
 // Set the geometry of the LED system
@@ -69,17 +77,17 @@ void LEDSystem::drawPixel(coordinate coor, float radius, int r, int g, int b) {
 }
 */
 void LEDSystem::show() {
-    for (auto &strip : strips) {
-        strip->show();
-    }
+    for (int i = 0; i < 7; i++) {
+    strips[i].show();
+  }
 }
 void LEDSystem::clear(){
-    for (auto &strip : strips) {
-        for (int i = 0; i < strip->numPixels(); ++i) {
-            strip->setPixelColor(i, 0, 0, 0); // Set all pixels to off
-        }
-        strip->show();
+    for (int i = 0; i < 7; i++) {
+    for (int j = 0; j < LED_COUNT; j++) {
+      strips[i].setPixelColor(j, strips[i].Color(0, 0, 0));
     }
+    strips[i].show();
+  }
 }
 
 // Build the LED system
@@ -88,10 +96,6 @@ void LEDSystem::build() {
     // in case something here
 }
 
-// Get the number of strips
-int LEDSystem::stripCount() {
-    return strips.size();
-}
 
 // Build the coordinate-to-pixel map
 void LEDSystem::buildCoordinatePixelMap() {
@@ -137,7 +141,6 @@ void LEDSystem::buildColumnCoordinatePixelMap(int col) {
     */
 }
 void LEDSystem::generate_grid(int rows, float distance) {
-    std::map<int, int> pin_dict = {{8, 2}, {21, 3}, {35, 4}, {50, 5}, {63, 6}, {77, 7}, {91, 8}};
     int cnt=0;
     for (int row = 0; row < rows; row++) {
         int num_points = (row % 2 == 0) ? 7 : 6;
@@ -155,9 +158,10 @@ void LEDSystem::generate_grid(int rows, float distance) {
               int ledid = top ? (ledcnt - 9 + lay) : (ledcnt - lay);
               float z=lay*10+5;
               coordinate pnt = {x, y, z};
-              pixel_ID pxl={pin_dict[int(y)],ledid};
-              coordinate_pixel_map[pnt]=pxl;
-              Serial.println(cnt);
+              int strip_id = get_pin_id(int(y));
+              pixel_ID pxl={strip_id,ledid};
+              points[cnt]=pnt;
+              pins[cnt]=pxl;
               cnt++;
               /*
               Serial.print(pnt.x);
@@ -177,6 +181,17 @@ void LEDSystem::generate_grid(int rows, float distance) {
         }
     }
 }
+int LEDSystem::get_pin_id(int y) {
+    const int keys[] = {8, 21, 35, 49, 63, 77, 91}; //check these!!!!
+    const int values[] = {2, 3, 4, 5, 6, 7, 8};
+    for (int i = 0; i < 7; i++) {
+        if (keys[i] == y) {
+            return values[i];
+        }
+    }
+    return -1; // Return -1 if the key is not found
+}
+
 /*
 void LEDSystem::populate_map(std::vector<coordinate> points, std::map<float, int> pin_dict) {
     
@@ -233,17 +248,20 @@ void LEDSystem::populate_map(std::vector<coordinate> points, std::map<float, int
 void LEDSystem::printMap(){
   // Print the map for verification
   Serial.println("print map");
-  for (auto& [key, value] : coordinate_pixel_map) {
+  for (int i=0; i<460; ++i) {
         Serial.print("Coordinate: ");
-        Serial.print(key.x);
+        Serial.print(points[i].x);
         Serial.print(", ");
-        Serial.print(key.y);
+        Serial.print(points[i].y);
         Serial.print(", ");
-        Serial.print(key.z);
+        Serial.print(points[i].z);
         Serial.print(" -> Pixel ID: ");
-        Serial.print(value.strip);
+        Serial.print(pins[i].strip);
         Serial.print(", ");
-        Serial.println(value.pixel);
+        Serial.println(pins[i].pixel);
     }
-
 }
+void LEDSystem::setPixel(int pixel, int r, int g, int b){
+  strips[0].setPixelColor(pixel, strips[0].Color(r,g,b));
+}
+

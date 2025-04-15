@@ -2,8 +2,6 @@
 #define LED_H
 
 #include <Adafruit_NeoPixel.h>
-#include <ArduinoSTL.h>
-#include <map>
 
 struct coordinate{
   float x;
@@ -53,11 +51,15 @@ class LEDSystem {
         //void drawPixel(coordinate coor, float radius, int r, int g, int b);
         void show();
         void printMap();
+        void setPixel(int pixel, int r, int g, int b);
 
     private:
         // Attributes
-        std::vector<Adafruit_NeoPixel*> strips;
-        std::map<coordinate, pixel_ID> coordinate_pixel_map; // Map of coordinates to LED pixels
+        Adafruit_NeoPixel strips[7];
+        coordinate points[460];
+        pixel_ID pins[460];
+        // Pixels per string
+
         int n_rows = 0;                     // Number of rows in the LED grid
         int n_cols = 0;                     // Number of columns in the LED grid
         int n_pixels_per_substrip = 0;      // Number of pixels per sub-strip
@@ -69,11 +71,15 @@ class LEDSystem {
         float vertical_offset = 0.0f;       // Vertical offset between nodes
         int first_led_offset = 0;           // Number of LEDs not used before the first LED
 
+        const int LED_PINS[7] = {2, 3, 4, 5, 6, 7, 8};
+
         // Helper function to build the coordinate-to-pixel map
         void buildCoordinatePixelMap();
         void buildColumnCoordinatePixelMap(int col);
         void generate_grid(int rows, float distance);
         //void populate_map(std::map<int, coordinate> points, std::vector<float> z_coords, std::map<float, int> pin_dict);
+        int get_pin_id(int yval);
+        
 };
 
 #endif // LED_H

@@ -25,17 +25,7 @@ LEDSystem ledControl;
 // setup() function -- runs once at startup --------------------------------
 
 void setup() {
-//LED SETUP
-  for (int i = 0; i < 7; i++) {
-    strips[i].begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
-    strips[i].show();            // Turn OFF all pixels ASAP
-    strips[i].setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
-  }
-  //turnOffAllLights();
-  //strip.setPixelColor(0, strip.Color(0,0,255));
-  strips[0].setPixelColor(50, strips[0].Color(200,150, 255)); //GBR
 
-  strips[0].show();
   Serial.begin(9600);
   Serial.println("startup");
 //CLOCK SETUP
@@ -67,7 +57,7 @@ void loop() {
   if(blue_state == LOW){
     //run blue program
     //subroutine should return after animation finishes
-    runNoise(strips[0]);
+    runNoise(ledControl);
   }
   else if(yellow_state == LOW){
     delay(30);
