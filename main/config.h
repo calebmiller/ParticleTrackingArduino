@@ -10,7 +10,9 @@
 #define WHITE_BUTTON_PIN 11
 
 // Pixels per string
+
 #define LED_COUNT 100
+#define NUM_STRIPS 7
 
 //Animation Properties
 #define STEPSIZE 0.1

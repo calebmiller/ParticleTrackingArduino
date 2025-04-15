@@ -4,6 +4,6 @@
 #ifndef NOISE_H
 #define NOISE_H
 
-void runNoise(LEDSystem ledControl);
+void runNoise(LEDSystem* ledControl);
 
 #endif

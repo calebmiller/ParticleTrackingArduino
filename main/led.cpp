@@ -1,23 +1,16 @@
 #include "led.h"
-
-// Define the pins for the NeoPixel strips
-const int LED_PINS[7] = {2, 3, 4, 5, 6, 7, 8};
-const int LED_COUNT = 100;
+#include "config.h"
 
 
-// Define the array of Adafruit_NeoPixel objects
-Adafruit_NeoPixel strips[7] = {
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[0], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[1], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[2], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[3], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[4], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[5], NEO_GRB + NEO_KHZ800),
-  Adafruit_NeoPixel(LED_COUNT, LED_PINS[6], NEO_GRB + NEO_KHZ800)
-};
+void LEDSystem::initLEDs(Adafruit_NeoPixel* strips, int numStrips){
 
-void LEDSystem::initLEDs(){
-
+  this->strips = strips;
+  this->numStrips = numStrips;
+  for (int i = 0; i < numStrips; ++i) {
+    strips[i].begin();
+    strips[i].show();
+    strips[i].setBrightness(100);
+  }
   int rows = 7;
   float distance = 16.0;
   generate_grid(rows, distance);
@@ -83,9 +76,9 @@ void LEDSystem::show() {
 }
 void LEDSystem::clear(){
     for (int i = 0; i < 7; i++) {
-    for (int j = 0; j < LED_COUNT; j++) {
-      strips[i].setPixelColor(j, strips[i].Color(0, 0, 0));
-    }
+      for (int j = 0; j < LED_COUNT; j++) {
+        strips[i].setPixelColor(j, strips[i].Color(0, 0, 0));
+      }
     strips[i].show();
   }
 }
@@ -157,7 +150,7 @@ void LEDSystem::generate_grid(int rows, float distance) {
             for(int lay=0; lay<10; lay++){
               int ledid = top ? (ledcnt - 9 + lay) : (ledcnt - lay);
               float z=lay*10+5;
-              coordinate pnt = {x, y, z};
+              coordinate pnt = {int(x), int(y), int(z)};
               int strip_id = get_pin_id(int(y));
               pixel_ID pxl={strip_id,ledid};
               points[cnt]=pnt;
@@ -261,7 +254,37 @@ void LEDSystem::printMap(){
         Serial.println(pins[i].pixel);
     }
 }
-void LEDSystem::setPixel(int pixel, int r, int g, int b){
-  strips[0].setPixelColor(pixel, strips[0].Color(r,g,b));
+void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
+  Serial.print(strip);
+  Serial.print(", ");
+  Serial.print(pixel);
+  Serial.print(", ");
+  Serial.print(r);
+  Serial.print(", ");
+  Serial.print(g);
+  Serial.print(", ");
+  Serial.print(b);
+  Serial.println();
+  strips[strip].setPixelColor(pixel, strips[strip].Color(r,g,b));
+}
+//void LEDSystem::runNoise(Adafruit_NeoPixel* strips){
+void LEDSystem::runNoise(){
+  for(int i=0; i<10; i++){
+    //for(int j=0; j<7; j++){
+      int nLights = random(10,30);
+		  for(int k=0; k<nLights; k++){
+			  int pixel = random(0,100);
+			  int r = random(50,255);
+			  int g = random(50,255);
+			  int b = random(50,255);
+        strips[0].setPixelColor(pixel, strips[0].Color(r,g,b));
+		  }
+    //}
+		show();
+    delay(100);
+
+		// Turn off all the lights
+		clear();
+	}
 }
 
