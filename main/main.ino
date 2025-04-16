@@ -75,11 +75,11 @@ void loop() {
     Serial.println("blue button");
     //run blue program
     //subroutine should return after animation finishes
-    runTrack(&ledControl);
+    runBall(&ledControl);
    
   }
   else if(yellow_state == LOW){
-    delay(30);
+    runTrack(&ledControl);
   }
   else if(white_state == LOW){
     delay(30);
