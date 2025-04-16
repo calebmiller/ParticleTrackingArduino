@@ -4,10 +4,11 @@
 #include <Adafruit_LEDBackpack.h>
 #include "config.h"
 
-#include "line.h"
+#include "3Dline.h"
 #include "ball.h"
 #include "noise.h"
 #include "led.h"
+
 
 int LED_PINS[NUM_STRIPS] = {2, 3, 4, 5, 6, 7, 8};
 
@@ -74,7 +75,7 @@ void loop() {
     Serial.println("blue button");
     //run blue program
     //subroutine should return after animation finishes
-    runNoise(&ledControl);
+    runTrack(&ledControl);
    
   }
   else if(yellow_state == LOW){
@@ -84,6 +85,7 @@ void loop() {
     delay(30);
   }
   else{
+    if(millis()%5000==0) runNoise(&ledControl);
     delay(10);
   }
 }
