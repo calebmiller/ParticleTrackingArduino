@@ -39,7 +39,6 @@ void generate_grid(int rows, float distance) {
                 coordinate pnt = {x, y, z};
                 pixel_ID pxl = {pin_dict[int(y)], ledid};
                 coordinate_pixel_map[pnt] = pxl;
-        		std::cout << int(y) << std::endl;
         		cnt++;
             }
             top = !top;
@@ -51,5 +50,6 @@ void generate_grid(int rows, float distance) {
 int main() {
     generate_grid(7, 16.0);
     return 0;
+
 }
 
