@@ -17,6 +17,7 @@
 //Animation Properties
 #define STEPSIZE 1
 #define LINERADIUS 15
+#define TIMESTEP 50 //should scale with STEPSIZE
 
 struct coordinate{
   int x;
