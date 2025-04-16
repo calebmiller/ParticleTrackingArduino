@@ -84,10 +84,9 @@ void runTrack(LEDSystem* ledControl) {
 	
     ledControl->setVolume(currentCoords, 30);
     ledControl->show();
-    Serial.println("step");
-		delay(5); //TIMESTEP
+		delay(TIMESTEP);
 	}
-  Serial.println("done");
+
 	delay(2000);
   ledControl->clear();
 }
