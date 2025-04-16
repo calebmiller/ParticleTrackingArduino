@@ -1,8 +1,9 @@
 #include <Adafruit_NeoPixel.h>
+#include "led.h"
 
 #ifndef BALL_H
 #define BALL_H
 
-void runBall(Adafruit_NeoPixel &strip);
+void runBall(LEDSystem* ledControl);
 
 #endif

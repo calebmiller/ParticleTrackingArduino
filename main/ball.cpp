@@ -2,25 +2,21 @@
 #include <Arduino.h>  // Required for Arduino functions
 #include <Adafruit_NeoPixel.h>
 
-void runBall(Adafruit_NeoPixel &strip) {
-	int startPixel = random(0, strip.numPixels());
-    int steps = random(3, 8); // Random number of steps between 1 and 5
+void runBall(LEDSystem* ledControl) {
+	int startx=random(20,80);
+	int starty=random(20,80);
+	int startz=random(20,80);
 
-    for (int step = 0; step <= steps; step++) {
-        for (int offset = -step; offset <= step; offset++) {
-            int pixel = startPixel + offset;
-            if (pixel >= 0 && pixel < strip.numPixels()) {
-                strip.setPixelColor(pixel, strip.Color(255, 255, 255));
-            }
-        }
-        strip.show();
-        delay(200);
-    }
+	coordinate start = {startx,starty,startz};
+  int SIZE=30; //pass in? determine randomly?
+  int radius=0;
+  while(radius<SIZE){
+    ledControl->setVolume(start, radius);
+    ledControl->show();
+		delay(TIMESTEP); //TIMESTEP
+    radius+=STEPSIZE;
+	}
 
-	delay(1000);
-    // Turn off all the lights after the wave
-    for (int i = 0; i < strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(0, 0, 0));
-    }
-    strip.show();
+	delay(2000);
+  ledControl->clear();
 }
