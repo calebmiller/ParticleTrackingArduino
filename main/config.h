@@ -18,5 +18,23 @@
 #define STEPSIZE 0.1
 #define LINERADIUS 15
 
+struct coordinate{
+  int x;
+  int y;
+  int z;
+  
+  bool operator<(const coordinate& other) const {
+    if (x != other.x) return x < other.x;
+    if (y != other.y) return y < other.y;
+    return z < other.z;
+  }
+};
+
+struct pixel_ID
+{
+  int strip;
+  int pixel;
+};
+
 #endif
 
