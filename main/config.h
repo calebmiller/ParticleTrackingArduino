@@ -15,7 +15,7 @@
 #define NUM_STRIPS 7
 
 //Animation Properties
-#define STEPSIZE 0.1
+#define STEPSIZE 1
 #define LINERADIUS 15
 
 struct coordinate{
