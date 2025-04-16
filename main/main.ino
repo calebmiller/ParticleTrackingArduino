@@ -75,16 +75,7 @@ void loop() {
     //run blue program
     //subroutine should return after animation finishes
     runNoise(&ledControl);
-    //delay(500);
-    //ledControl.clear();
-    //ledControl.runNoise();
-    //ledControl.runNoise(strips);
-    /*
-    for(int i; i<100; i++){
-        strips[0].setPixelColor(i, strips[0].Color(0,0,0));
-    }
-    strips[0].show();
-    */
+   
   }
   else if(yellow_state == LOW){
     delay(30);
