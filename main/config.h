@@ -19,6 +19,10 @@
 #define LINERADIUS 15
 #define TIMESTEP 50 //should scale with STEPSIZE
 
+//Predefined colors 
+// g<<16 | b<<8 | r
+#define PINK 4142335 
+
 struct coordinate{
   int x;
   int y;

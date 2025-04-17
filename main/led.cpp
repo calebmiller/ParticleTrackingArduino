@@ -105,14 +105,44 @@ void LEDSystem::printMap(){
 void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
   strips[strip].setPixelColor(pixel, strips[strip].Color(r,g,b));
 }
-void LEDSystem::assembly(int strip, int step){
-	clear();
-  //turn on each light in a seequence, pushing the button steps the lights one posistion  
+void LEDSystem::assembly(int strip, int step){  //turn on each light in a seequence, pushing the button steps the lights one posistion  
+  clear();
+  int pixel_list[100];
+  for (int i=0; i<100; i++){
+    pixel_list[i]=999;
+  }
+  int count = 0;
+  for (int i = 0; i < 460; i++) { //If written in reverse order ie. 70-count, it could be sorted in ~10 steps
+    if (pins[i].strip == strip) {
+      pixel_list[count] = pins[i].pixel;
+      count++;
+    }
+  }
+  //order list
+  for (int i = 0; i < 100 - 1; i++) {
+    for (int j = 0; j < 100 - 1; j++) {
+      if (pixel_list[j] > pixel_list[j + 1]) {
+        int temp = pixel_list[j];
+        pixel_list[j] = pixel_list[j + 1];
+        pixel_list[j + 1] = temp;
+      }
+    }
+  }
+  int px=pixel_list[step];
+  bool top;
+  if((px<100 && px>89)  || (px<74 && px>63) || (px<48 && px>37) ||(px<22 && px>11)) top=true;
+  else top=false;
+  if(strip%2!=0) top= !top;
+
+  if(top) setPixel(strip-2,px,255,0,0); //-2 converts between PINID and Array index
+  else setPixel(strip-2,px,0,0,255); //Green light if elastic before ball, red light if ball before elastic
+
+  show();
 }
 void LEDSystem::redFlash(){
   for (int i = 0; i < 7; i++) {
     for (int j = 0; j < LED_COUNT; j++) {
-      strips[i].setPixelColor(j, strips[i].Color(0, 0, 255)); //GBR
+      strips[i].setPixelColor(j, PINK); //GBR
     }
   strips[i].show();
   }

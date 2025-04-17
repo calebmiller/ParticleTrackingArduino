@@ -36,6 +36,9 @@ int white_state=0;
 LEDSystem ledControl;
 
 
+//Assembly counter
+int lightCount=0;
+
 // setup() function -- runs once at startup --------------------------------
 
 void setup() {
@@ -59,6 +62,7 @@ void setup() {
   //ledControl.clear();
   //ledControl.printMap(); //Takes a long time
 
+  lightCount=0;
  
 }
 
@@ -76,7 +80,10 @@ void loop() {
     //run blue program
     //subroutine should return after animation finishes
     //runBall(&ledControl);
-    ledControl.redFlash();
+    //ledControl.redFlash();
+    ledControl.assembly(2, lightCount); //PINID,LEDSTEP
+    lightCount++;
+    delay(500);
   }
   else if(yellow_state == LOW){
     runTrack(&ledControl);
@@ -85,7 +92,7 @@ void loop() {
     delay(30);
   }
   else{
-    if(millis()%5000==0) runNoise(&ledControl);
+    //if(millis()%5000==0) runNoise(&ledControl);
     delay(10);
   }
 }
