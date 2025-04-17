@@ -105,4 +105,18 @@ void LEDSystem::printMap(){
 void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
   strips[strip].setPixelColor(pixel, strips[strip].Color(r,g,b));
 }
+void LEDSystem::assembly(int strip, int step){
+	clear();
+  //turn on each light in a seequence, pushing the button steps the lights one posistion  
+}
+void LEDSystem::redFlash(){
+  for (int i = 0; i < 7; i++) {
+    for (int j = 0; j < LED_COUNT; j++) {
+      strips[i].setPixelColor(j, strips[i].Color(0, 0, 255)); //GBR
+    }
+  strips[i].show();
+  }
+  delay(500);
+  clear();
+}
 

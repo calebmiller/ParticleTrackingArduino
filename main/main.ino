@@ -75,8 +75,8 @@ void loop() {
     Serial.println("blue button");
     //run blue program
     //subroutine should return after animation finishes
-    runBall(&ledControl);
-   
+    //runBall(&ledControl);
+    ledControl.redFlash();
   }
   else if(yellow_state == LOW){
     runTrack(&ledControl);

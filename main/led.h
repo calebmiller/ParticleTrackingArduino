@@ -14,6 +14,8 @@ class LEDSystem {
     void printMap();
     void setPixel(int strip, int pixel, int r, int g, int b);
     void setVolume(coordinate coor, float radius);
+    void redFlash();
+    void assembly(int strip, int step);
 
   private:
     Adafruit_NeoPixel* strips;
