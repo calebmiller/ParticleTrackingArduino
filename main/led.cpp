@@ -53,11 +53,11 @@ void LEDSystem::generate_grid(int rows, float distance) {
     bool top = (row % 2 == 0);
     int ledcnt=99;
     for (int col = 0; col < num_points; col++) {
-      float x = col * distance * sqrt(3) / 2;
+      float x = col * distance;
       float y = row * distance * sqrt(3) / 2;
-      if (row % 2 == 1) x += distance * sqrt(3) / 4;      
-      x += 8;
-      y += 8;
+      if (row % 2 == 1) x += distance / 2;      
+      x += 2;
+      y += (100.0-(6.0*distance*sqrt(3)/2.0))/2.0;
       for(int lay=0; lay<10; lay++){
         int ledid = top ? (ledcnt - 9 + lay) : (ledcnt - lay);
         float z=lay*10+5;
