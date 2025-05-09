@@ -43,23 +43,17 @@ int lightCount=0;
 
 void setup() {
 
-  Serial.begin(9600);
+  Serial.begin(9600); //Starts serial bus, I think for console logging?
+  matrix.begin(0x70); //Starts clock
   Serial.println("startup");
-
-//CLOCK SETUP
-//#ifndef __AVR_ATtiny85__
-//  
-//  Serial.println("7 Segment Backpack Test");
-//#endif
-//  matrix.begin(0x70);
 
 //BUTTON SETUP
   pinMode(BLUE_BUTTON_PIN, INPUT_PULLUP);
   pinMode(YELLOW_BUTTON_PIN, INPUT_PULLUP);
   pinMode(WHITE_BUTTON_PIN, INPUT_PULLUP);
 
-  ledControl.initLEDs(strips,NUM_STRIPS);
-  //ledControl.clear();
+  ledControl.initLEDs(strips, NUM_STRIPS, &matrix); //passes strips and clock to ledControl
+
   //ledControl.printMap(); //Takes a long time
 
   lightCount=0;
@@ -75,15 +69,9 @@ void loop() {
   blue_state=digitalRead(BLUE_BUTTON_PIN);
   yellow_state=digitalRead(YELLOW_BUTTON_PIN);
   white_state=digitalRead(WHITE_BUTTON_PIN);
+  
   if(blue_state == LOW){
-    Serial.println("blue button");
-    //run blue program
-    //subroutine should return after animation finishes
-    //runBall(&ledControl);
-    //ledControl.redFlash();
-    ledControl.assembly(2, lightCount); //PINID,LEDSTEP
-    lightCount++;
-    delay(500);
+    runBall(&ledControl);
   }
   else if(yellow_state == LOW){
     runTrack(&ledControl);
@@ -92,7 +80,8 @@ void loop() {
     delay(30);
   }
   else{
-    //if(millis()%5000==0) runNoise(&ledControl);
+    if(millis()%5000==0) runNoise(&ledControl);
+    if(millis()%6000==0) ledControl.redFlash();
     delay(10);
   }
 }
