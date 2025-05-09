@@ -54,6 +54,10 @@ void setup() {
 
   ledControl.initLEDs(strips, NUM_STRIPS, &matrix); //passes strips and clock to ledControl
 
+  ledControl.resetClock();
+  //strips[0].setPixelColor(25, strips[0].Color(255, 255, 255));
+  //strips[0].show();
+
   //ledControl.printMap(); //Takes a long time
 
   lightCount=0;
@@ -70,18 +74,23 @@ void loop() {
   yellow_state=digitalRead(YELLOW_BUTTON_PIN);
   white_state=digitalRead(WHITE_BUTTON_PIN);
   
+  //ledControl.assembly(3, lightCount);
+  //lightCount++;
+  //if(lightCount>100) lightCount=0;
+  //ledControl.lightAll();
+
   if(blue_state == LOW){
     runBall(&ledControl);
   }
-  else if(yellow_state == LOW){
+  else if(white_state == LOW){
     runTrack(&ledControl);
   }
-  else if(white_state == LOW){
-    delay(30);
+  else if(yellow_state == LOW){
+    ledControl.redFlash();
+    delay(10);
   }
   else{
     if(millis()%5000==0) runNoise(&ledControl);
-    if(millis()%6000==0) ledControl.redFlash();
-    delay(10);
+    delay(100);
   }
 }

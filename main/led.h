@@ -19,6 +19,9 @@ class LEDSystem {
     void redFlash();
     void assembly(int strip, int step);
     void lightAll();
+    void resetClock();
+    void updateClock(int timestep);
+
 
   private:
     Adafruit_NeoPixel* strips;

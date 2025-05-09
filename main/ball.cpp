@@ -7,13 +7,20 @@ void runBall(LEDSystem* ledControl) {
 	int starty=random(20,80);
 	int startz=random(20,80);
 
+  Serial.println(startx);
+  Serial.println(starty);
+  Serial.println(startz);
+  Serial.println();
+
 	coordinate start = {startx,starty,startz};
-  int SIZE=30; //pass in? determine randomly?
+  int SIZE=random(20,40); //pass in? determine randomly?
   int radius=0;
+  ledControl->resetClock();
   while(radius<SIZE){
     ledControl->setVolume(start, radius);
     ledControl->show();
-		delay(TIMESTEP); //TIMESTEP
+    ledControl->updateClock(TIMESTEP);
+	  delay(TIMESTEP); //TIMESTEP
     radius+=STEPSIZE;
 	}
 

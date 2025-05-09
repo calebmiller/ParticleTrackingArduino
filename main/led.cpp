@@ -36,6 +36,7 @@ void LEDSystem::setVolume(coordinate coor, float radius) {
       float scale=1-(dist/radius);
       if (scale<0) scale=0;
       setPixel(pins[i].strip,pins[i].pixel,int(scale*255),int(scale*255),int(scale*255));
+      //setPixel(pins[i].strip,pins[i].pixel,100,100,100);
     }
   }
 }
@@ -112,7 +113,7 @@ void LEDSystem::printMap(){
   }
 }
 void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
-  strips[strip].setPixelColor(pixel, strips[strip].Color(r,g,b));
+  strips[strip-2].setPixelColor(pixel, strips[strip-2].Color(r,g,b));
 }
 void LEDSystem::lightAll()
 {
@@ -165,4 +166,19 @@ void LEDSystem::redFlash(){
   delay(500);
   clear();
 }
-
+void LEDSystem::resetClock()
+{
+    currentTime=0;
+    updateClock(0);
+}
+void LEDSystem::updateClock(int timestep)
+{
+  clock->clear();
+  currentTime+=timestep;
+  clock->writeDigitNum(0, (currentTime / 1000), false);
+  clock->writeDigitNum(1, (currentTime / 100) % 10, false);
+  clock->writeDigitNum(3, (currentTime / 10) % 10, false);
+  clock->writeDigitNum(4, currentTime % 10, false);
+  clock->drawColon(false);
+  clock->writeDisplay();
+}
