@@ -23,8 +23,8 @@ void runTau(LEDSystem* ledControl) {
   ledControl->resetClock();
   int time=0;
   while(radius1<ball1 || radius2<ball2){
-    ledControl->setVolume(start, radius1);
-    if(time>100) ledControl->setVolume(tau, radius2);
+    ledControl->setVolume(start, radius1, 255, 0 , 0);
+    if(time>100) ledControl->setVolume(tau, radius2, 0, 0, 255);
     ledControl->show();
     ledControl->updateClock(TIMESTEP);
 	  delay(TIMESTEP); //TIMESTEP
