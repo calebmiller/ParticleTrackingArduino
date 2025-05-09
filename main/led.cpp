@@ -1,16 +1,25 @@
 #include "led.h"
 #include "config.h"
 
-void LEDSystem::initLEDs(Adafruit_NeoPixel* strips, int numStrips){
+void LEDSystem::initLEDs(Adafruit_NeoPixel* strs, int nStrs, Adafruit_7segment* clk){
 
-  this->strips = strips;
-  this->numStrips = numStrips;
+  this->strips = strs;
+  this->numStrips = nStrs;
+  this->clock = clk;
+  this->currentTime = 0;
   for (int i = 0; i < numStrips; ++i) {
     strips[i].begin();
     strips[i].show();
     strips[i].setBrightness(100);
   }
   clear();
+  clock->clear();
+  for (int i = 0; i < 5; ++i) { //left to right (0:digit, 1:digit, 2:colon(?), 3:digit, 4:digit)
+    clock->writeDigitNum(i, 0,false); //false disables drawing extra colons/dots around the board
+  }
+  clock->drawColon(true);
+  clock->writeDisplay();
+
   int rows = 7;
   float distance = 16.0;
   generate_grid(rows, distance);
@@ -74,14 +83,14 @@ void LEDSystem::generate_grid(int rows, float distance) {
   }
 }
 int LEDSystem::get_pin_id(int y) {
-  const int keys[] = {8, 21, 35, 49, 63, 77, 91}; //check these!!!!
+  const int keys[] = {8, 22, 36, 50, 63, 77, 91}; 
   const int values[] = {2, 3, 4, 5, 6, 7, 8};
   for (int i = 0; i < 7; i++) {
     if (keys[i] == y) {
       return values[i];
     }
   }
-  Serial.print("No Valid Key found");
+  Serial.println("No Valid Key found");
   return -1; // Return -1 if the key is not found
 }
 
@@ -104,6 +113,13 @@ void LEDSystem::printMap(){
 }
 void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
   strips[strip].setPixelColor(pixel, strips[strip].Color(r,g,b));
+}
+void LEDSystem::lightAll()
+{
+  for (int i=0; i<460; ++i) {
+    setPixel(pins[i].strip,pins[i].pixel,50,50,50);
+  }
+  show();
 }
 void LEDSystem::assembly(int strip, int step){  //turn on each light in a seequence, pushing the button steps the lights one posistion  
   clear();
