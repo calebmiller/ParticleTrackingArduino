@@ -83,7 +83,7 @@ void runTrack(LEDSystem* ledControl) {
 
   ledControl->resetClock();
 
-	while(distance>0-brightness){//Move the current point by the STEPSIZE
+	while(distance>0-2*brightness){//Move the current point by the STEPSIZE
     currentCoords.x += (endPoint.x > currentCoords.x) ? STEPSIZE : -STEPSIZE;
     currentCoords.y += (endPoint.y > currentCoords.y) ? STEPSIZE : -STEPSIZE;
     currentCoords.z += (endPoint.z > currentCoords.z) ? STEPSIZE : -STEPSIZE;
