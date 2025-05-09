@@ -8,6 +8,7 @@
 #include "ball.h"
 #include "noise.h"
 #include "led.h"
+#include "tau.h"
 
 
 int LED_PINS[NUM_STRIPS] = {2, 3, 4, 5, 6, 7, 8};
@@ -86,8 +87,9 @@ void loop() {
     runTrack(&ledControl);
   }
   else if(yellow_state == LOW){
-    ledControl.redFlash();
-    delay(10);
+    runTau(&ledControl);
+    //ledControl.redFlash();
+    //delay(10);
   }
   else{
     if(millis()%5000==0) runNoise(&ledControl);
