@@ -26,7 +26,7 @@ void LEDSystem::initLEDs(Adafruit_NeoPixel* strs, int nStrs, Adafruit_7segment* 
   Serial.println("Geometry Generated");
 }
 
-void LEDSystem::setVolume(coordinate coor, float radius) {
+void LEDSystem::setVolume(coordinate coor, float radius, int r, int g, int b) {
   for(int i=0; i<460;i++){
     int xdiff=abs(points[i].x-coor.x);
     int ydiff=abs(points[i].y-coor.y);
@@ -35,7 +35,7 @@ void LEDSystem::setVolume(coordinate coor, float radius) {
       float dist= sqrt(pow(xdiff,2)+pow(ydiff,2)+pow(zdiff,2));
       float scale=1-(dist/radius);
       if (scale<0) scale=0;
-      setPixel(pins[i].strip,pins[i].pixel,int(scale*255),int(scale*255),int(scale*255));
+      setPixel(pins[i].strip,pins[i].pixel,int(scale*r),int(scale*g),int(scale*b));
       //setPixel(pins[i].strip,pins[i].pixel,100,100,100);
     }
   }
