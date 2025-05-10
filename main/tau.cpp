@@ -21,8 +21,8 @@ void runTau(LEDSystem* ledControl) {
   int radius1=0;
   int radius2=0;
  
-  colour c1={255,63,52}
-  colour c2={52,244,255}
+  colour c1={255,63,52};
+  colour c2={52,244,255};
 
  
   ledControl->resetClock();

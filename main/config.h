@@ -28,7 +28,7 @@ struct colour{
 	int r;
 	int g;
 	int b;
-}
+};
 
 
 struct coordinate{

@@ -52,7 +52,7 @@ void LEDSystem::drawCombined(coordinate p1, int r1, colour c1, coordinate p2, in
 	float s1 = checkVolume(points[i],p1,r1);
 	float s2 = checkVolume(points[i],p2,r2);
     if(s1>0 || s2>0){
-	  setPixel(pins[i].strip,pins[i].pixel,int(s1*c1.r+s2*c2.r),int(s1*c1.g+s2*c2.g),int(s1*c1.b+s2*c2.b); //should we include a scale factor?
+	  setPixel(pins[i].strip,pins[i].pixel,int(s1*c1.r+s2*c2.r),int(s1*c1.g+s2*c2.g),int(s1*c1.b+s2*c2.b)); //should we include a scale factor?
     }
   }
 
