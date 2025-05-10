@@ -20,12 +20,23 @@ void runTau(LEDSystem* ledControl) {
     
   int radius1=0;
   int radius2=0;
-  
+ 
+  colour c1={255,63,52}
+  colour c2={52,244,255}
+
+ 
   ledControl->resetClock();
   int time=0;
+  bool both=false;
   while(radius1<ball1 || radius2<ball2){
-    ledControl->setVolume(start, radius1, 255, 0 , 0);
-    if(time>(distance/TIMESTEP)) ledControl->setVolume(tau, radius2, 0, 0, 255);
+	if(both){
+		ledControl->drawCombined(start, radius1, c1, tau, radius2, c2);
+	}
+	else{
+   	  ledControl->setVolume(start, radius1, 255, 0 , 0);
+      if(time>(distance/TIMESTEP)) both=true;
+	}
+
     ledControl->show();
     ledControl->updateClock(TIMESTEP);
 	delay(TIMESTEP); 
