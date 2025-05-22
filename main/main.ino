@@ -82,12 +82,15 @@ void loop() {
 
   if(blue_state == LOW){
     runBall(&ledControl);
+    ledControl.resetClock();
   }
   else if(white_state == LOW){
     runTrack(&ledControl);
+    ledControl.resetClock();
   }
   else if(yellow_state == LOW){
     runTau(&ledControl);
+    ledControl.resetClock();
     //ledControl.redFlash();
     //delay(10);
   }
@@ -95,4 +98,5 @@ void loop() {
     if(millis()%5000==0) runNoise(&ledControl);
     delay(100);
   }
+  
 }

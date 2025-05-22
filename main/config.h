@@ -22,6 +22,14 @@
 //Predefined colors 
 // g<<16 | b<<8 | r
 #define PINK 4142335 
+#define CYAN 3470591
+
+struct colour{
+	int r;
+	int g;
+	int b;
+};
+
 
 struct coordinate{
   int x;

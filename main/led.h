@@ -15,8 +15,10 @@ class LEDSystem {
     void show();
     void printMap();
     void setPixel(int strip, int pixel, int r, int g, int b);
-    void setVolume(coordinate coor, float radius, int r = 255, int g = 255, int b= 255);
-    void redFlash();
+    void setVolume(coordinate coor, int radius, int r = 255, int g = 255, int b= 255);
+    float checkVolume(coordinate LED, coordinate coor, int radius);
+    void drawCombined(coordinate p1, int r1, colour c1, coordinate p2, int r2, colour c2);
+	void redFlash();
     void assembly(int strip, int step);
     void lightAll();
     void resetClock();

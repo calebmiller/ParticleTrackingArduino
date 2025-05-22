@@ -25,20 +25,37 @@ void LEDSystem::initLEDs(Adafruit_NeoPixel* strs, int nStrs, Adafruit_7segment* 
   generate_grid(rows, distance);
   Serial.println("Geometry Generated");
 }
-
-void LEDSystem::setVolume(coordinate coor, float radius, int r, int g, int b) {
-  for(int i=0; i<460;i++){
-    int xdiff=abs(points[i].x-coor.x);
-    int ydiff=abs(points[i].y-coor.y);
-    int zdiff=abs(points[i].z-coor.z);
+float LEDSystem::checkVolume(coordinate LED, coordinate coor, int radius)
+{
+    int xdiff=abs(LED.x-coor.x);
+    int ydiff=abs(LED.y-coor.y);
+    int zdiff=abs(LED.z-coor.z);
+	float scale=0;
     if(xdiff<radius && ydiff<radius && zdiff<radius){
       float dist= sqrt(pow(xdiff,2)+pow(ydiff,2)+pow(zdiff,2));
-      float scale=1-(dist/radius);
+      scale=1-(dist/radius);
       if (scale<0) scale=0;
-      setPixel(pins[i].strip,pins[i].pixel,int(scale*r),int(scale*g),int(scale*b));
-      //setPixel(pins[i].strip,pins[i].pixel,100,100,100);
+	}
+	return scale;
+}
+
+void LEDSystem::setVolume(coordinate coor, int radius, int r, int g, int b) {
+  for(int i=0; i<460;i++){
+	float scale = checkVolume(points[i],coor, radius);
+      if(scale>0){
+	    setPixel(pins[i].strip,pins[i].pixel,int(scale*r),int(scale*g),int(scale*b));
     }
   }
+}
+void LEDSystem::drawCombined(coordinate p1, int r1, colour c1, coordinate p2, int r2, colour c2){
+  for(int i=0; i<460;i++){
+	float s1 = checkVolume(points[i],p1,r1);
+	float s2 = checkVolume(points[i],p2,r2);
+    if(s1>0 || s2>0){
+	  setPixel(pins[i].strip,pins[i].pixel,int(s1*c1.r+s2*c2.r),int(s1*c1.g+s2*c2.g),int(s1*c1.b+s2*c2.b)); //should we include a scale factor?
+    }
+  }
+
 }
 
 void LEDSystem::show() {
@@ -113,6 +130,9 @@ void LEDSystem::printMap(){
   }
 }
 void LEDSystem::setPixel(int strip, int pixel, int r, int g, int b){
+  if(r>255) r=255;
+  if(g>255) g=255;
+  if(b>255) b=255;
   strips[strip-2].setPixelColor(pixel, strips[strip-2].Color(r,g,b));
 }
 void LEDSystem::lightAll()
